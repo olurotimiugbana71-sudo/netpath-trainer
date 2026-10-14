@@ -7,9 +7,11 @@ import { Activate } from './pages/Activate';
 import { Footer } from './components/Footer';
 import './App.css';
 
+const BASENAME = import.meta.env.BASE_URL;
+
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={BASENAME}>
       <div className="app-shell">
         <main className="app-main">
           <Routes>
