@@ -1,0 +1,37 @@
+{
+  "id": "vlan-trunk-01",
+  "title": "Users on VLAN 20 Cannot Reach the Server VLAN",
+  "difficulty": "beginner",
+  "topic": "VLAN",
+  "symptoms": [
+    "Users in VLAN 20 report they cannot reach the file server in VLAN 30",
+    "Ping from a VLAN 20 PC to the VLAN 30 server times out",
+    "Users in VLAN 10 can reach the server without issue",
+    "The trunk link between the access switch and the distribution switch is up"
+  ],
+  "rootCause": "VLAN 30 was not added to the allowed VLAN list on the trunk interface. The trunk is passing VLAN 10 and the native VLAN only, silently dropping VLAN 30 tagged frames.",
+  "steps": [
+    {
+      "order": 1,
+      "prompt": "Which command verifies that the trunk is up and shows which VLANs are allowed on it?",
+      "expectedCommand": "show interfaces trunk",
+      "hint": "Look at the 'Vlans allowed on trunk' column for the uplink interface.",
+      "validation": "contains"
+    },
+    {
+      "order": 2,
+      "prompt": "Which command confirms VLAN 20 and VLAN 30 both exist on the access switch?",
+      "expectedCommand": "show vlan brief",
+      "hint": "If VLAN 30 is missing locally, the problem is upstream of the trunk config.",
+      "validation": "contains"
+    },
+    {
+      "order": 3,
+      "prompt": "Which command shows the current configuration of the trunk interface to confirm the allowed VLAN list?",
+      "expectedCommand": "show running-config interface GigabitEthernet0/1",
+      "hint": "Look for a 'switchport trunk allowed vlan' line - if it lists only 10, that's your culprit.",
+      "validation": "contains"
+    }
+  ],
+  "premium": false
+}

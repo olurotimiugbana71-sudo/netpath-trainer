@@ -1,0 +1,37 @@
+{
+  "id": "ospf-blackhole-01",
+  "title": "Remote Office Cannot Reach Headquarters After OSPF Change",
+  "difficulty": "intermediate",
+  "topic": "OSPF",
+  "symptoms": [
+    "The remote office can ping its local gateway but nothing beyond",
+    "OSPF neighbor relationship with HQ is in FULL state",
+    "HQ router shows the remote office subnet in its routing table",
+    "Remote office router does NOT show the HQ subnet in its routing table"
+  ],
+  "rootCause": "The remote office router is in a stub area, but the HQ ABR is not originating a default route into the stub area. Without a default route, the remote router has no path to external destinations.",
+  "steps": [
+    {
+      "order": 1,
+      "prompt": "Which command shows the OSPF neighbor table and confirms adjacency state?",
+      "expectedCommand": "show ip ospf neighbor",
+      "hint": "FULL state means the adjacency is healthy - the problem is elsewhere.",
+      "validation": "contains"
+    },
+    {
+      "order": 2,
+      "prompt": "Which command shows the routing table and reveals the missing route?",
+      "expectedCommand": "show ip route",
+      "hint": "Look for a missing 0.0.0.0/0 default route if the area is a stub.",
+      "validation": "contains"
+    },
+    {
+      "order": 3,
+      "prompt": "Which command shows the OSPF link-state database to check for advertised routes from HQ?",
+      "expectedCommand": "show ip ospf database",
+      "hint": "Compare what HQ is advertising vs. what the remote router is installing.",
+      "validation": "contains"
+    }
+  ],
+  "premium": true
+}

@@ -1,0 +1,37 @@
+{
+  "id": "acl-blocking-01",
+  "title": "New Application Server Cannot Reach the Database",
+  "difficulty": "advanced",
+  "topic": "ACL",
+  "symptoms": [
+    "A newly deployed application server cannot connect to the database server",
+    "The database server is reachable from other application servers",
+    "The switch port connecting the new server is up and passing traffic",
+    "The router between the two subnets shows an ACL applied inbound on the server VLAN"
+  ],
+  "rootCause": "The inbound ACL on the server VLAN does not have a permit statement for the new application server's IP. The implicit deny at the end of the ACL drops the traffic.",
+  "steps": [
+    {
+      "order": 1,
+      "prompt": "Which command shows ACL hit counts to confirm which entries are matching traffic?",
+      "expectedCommand": "show access-lists",
+      "hint": "If you see the traffic hitting a 'deny' entry, the ACL is your problem.",
+      "validation": "contains"
+    },
+    {
+      "order": 2,
+      "prompt": "Which command shows which ACL is applied to which interface and in which direction?",
+      "expectedCommand": "show ip interface",
+      "hint": "Look for the 'Inbound access list' and 'Outbound access list' fields.",
+      "validation": "contains"
+    },
+    {
+      "order": 3,
+      "prompt": "Which command reveals the full ACL definition to check for the missing permit?",
+      "expectedCommand": "show running-config | include access-list",
+      "hint": "Verify the wildcard masks and the order of entries - ACLs are processed top-down.",
+      "validation": "contains"
+    }
+  ],
+  "premium": true
+}

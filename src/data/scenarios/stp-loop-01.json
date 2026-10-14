@@ -1,0 +1,37 @@
+{
+  "id": "stp-loop-01",
+  "title": "Intermittent Connectivity and High CPU After Switch Addition",
+  "difficulty": "intermediate",
+  "topic": "STP",
+  "symptoms": [
+    "Users report intermittent connectivity across the entire floor",
+    "Access switches show very high CPU utilization",
+    "Broadcast traffic spikes are visible in network monitoring",
+    "Issue started after a new unmanaged switch was added to the wiring closet"
+  ],
+  "rootCause": "A Layer 2 loop was introduced. STP was disabled on the uplink port of the new switch, or the switch is not participating in STP, causing broadcast frames to loop indefinitely.",
+  "steps": [
+    {
+      "order": 1,
+      "prompt": "Which command shows the spanning-tree state of all VLANs on a switch?",
+      "expectedCommand": "show spanning-tree",
+      "hint": "Look for any interface that should be blocking but is forwarding, or an unexpected root bridge.",
+      "validation": "contains"
+    },
+    {
+      "order": 2,
+      "prompt": "Which command shows interface status to spot flapping or unexpected up ports?",
+      "expectedCommand": "show interfaces status",
+      "hint": "An interface that is up/up but not supposed to be connected is suspicious.",
+      "validation": "contains"
+    },
+    {
+      "order": 3,
+      "prompt": "Which command identifies the current root bridge for VLAN 1?",
+      "expectedCommand": "show spanning-tree vlan 1",
+      "hint": "If a low-priority switch became root by accident, that can cause suboptimal paths but not a loop.",
+      "validation": "contains"
+    }
+  ],
+  "premium": false
+}

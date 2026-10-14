@@ -1,0 +1,15 @@
+/* src/pages/ScenarioSelector.css */
+
+.selector-header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-top: var(--space-4);
+}
+
+@media (max-width: 480px) {
+  .selector-header-actions {
+    gap: var(--space-2);
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "nat-exhaustion-01",
+  "title": "Internet Access Fails Intermittently During Peak Hours",
+  "difficulty": "advanced",
+  "topic": "NAT",
+  "symptoms": [
+    "Users can reach the internet in the morning but not during peak hours",
+    "Issue resolves itself after 30-60 minutes",
+    "Internal LAN connectivity is unaffected",
+    "The edge router's outbound interface is not saturated"
+  ],
+  "rootCause": "The NAT pool is too small for the number of concurrent users. During peak hours, the pool exhausts, and new connections fail until translations time out.",
+  "steps": [
+    {
+      "order": 1,
+      "prompt": "Which command shows active NAT translations and the pool utilization?",
+      "expectedCommand": "show ip nat translations",
+      "hint": "Count the entries against your pool size. If it's maxed out, you found it.",
+      "validation": "contains"
+    },
+    {
+      "order": 2,
+      "prompt": "Which command shows NAT statistics including translation failures?",
+      "expectedCommand": "show ip nat statistics",
+      "hint": "Look for 'translation failures' or 'pool exhausted' counters.",
+      "validation": "contains"
+    },
+    {
+      "order": 3,
+      "prompt": "Which command shows the NAT pool configuration including its size?",
+      "expectedCommand": "show running-config | include ip nat pool",
+      "hint": "A /29 pool gives you 6 usable addresses - is that enough for your user count?",
+      "validation": "contains"
+    }
+  ],
+  "premium": true
+}
