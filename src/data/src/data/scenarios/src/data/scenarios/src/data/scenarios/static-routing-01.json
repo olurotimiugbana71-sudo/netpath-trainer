@@ -1,0 +1,37 @@
+{
+  "id": "static-routing-01",
+  "title": "Inter-VLAN Routing Fails After Redistribution",
+  "difficulty": "intermediate",
+  "topic": "Routing",
+  "symptoms": [
+    "VLAN 10 and VLAN 20 can each reach the internet, but not each other",
+    "The core switch has static routes pointing to the router",
+    "The router has routes to both VLANs via the core switch",
+    "Traceroute stops at the router"
+  ],
+  "rootCause": "The static route on the router for VLAN 20 points to the wrong next-hop interface. The route exists but forwards traffic to an unreachable or incorrect destination, creating an asymmetric path that drops return traffic.",
+  "steps": [
+    {
+      "order": 1,
+      "prompt": "Which command shows the routing table and the static routes?",
+      "expectedCommand": "show ip route",
+      "hint": "Look for 'S' entries - check the next-hop IP for each.",
+      "validation": "contains"
+    },
+    {
+      "order": 2,
+      "prompt": "Which command shows only the static routes in the configuration?",
+      "expectedCommand": "show running-config | include ip route",
+      "hint": "Compare next-hop IPs against the actual interface addresses.",
+      "validation": "contains"
+    },
+    {
+      "order": 3,
+      "prompt": "Which command tests reachability to the VLAN 20 gateway from the router?",
+      "expectedCommand": "ping 10.20.0.1",
+      "hint": "If this fails, the static route's next-hop is unreachable.",
+      "validation": "contains"
+    }
+  ],
+  "premium": true
+}

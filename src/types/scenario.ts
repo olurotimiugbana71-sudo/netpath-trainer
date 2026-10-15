@@ -1,71 +1,38 @@
-// src/types/scenario.ts
+// src/data/scenarios.ts
 
-/**
- * Difficulty level for a scenario.
- * Used for filtering and visual badges.
- */
-export type Difficulty = 'beginner' | 'intermediate' | 'advanced';
+import type { Scenario } from '../types/scenario';
 
-/**
- * How the user's command input is validated against the expected command.
- * - 'exact':    input must match expected exactly (trimmed, case-insensitive)
- * - 'contains': input must contain the expected substring
- * - 'regex':    expected is treated as a regular expression
- */
-export type ValidationMode = 'exact' | 'contains' | 'regex';
+import vlanTrunk from './scenarios/vlan-trunk-01.json';
+import stpLoop from './scenarios/stp-loop-01.json';
+import ospfBlackhole from './scenarios/ospf-blackhole-01.json';
+import natExhaustion from './scenarios/nat-exhaustion-01.json';
+import aclBlocking from './scenarios/acl-blocking-01.json';
 
-/**
- * A single guided step within a troubleshooting scenario.
- */
-export interface GuidedStep {
-  /** Display order, starting at 1 */
-  order: number;
-  /** The question or task shown to the user */
-  prompt: string;
-  /** The correct CLI command the user should type */
-  expectedCommand: string;
-  /** Progressive hint shown if the user clicks "Need a hint?" */
-  hint: string;
-  /** How strictly to match the user's input */
-  validation: ValidationMode;
+import etherchannel from './scenarios/etherchannel-01.json';
+import hsrp from './scenarios/hsrp-01.json';
+import eigrp from './scenarios/eigrp-01.json';
+import dhcpRelay from './scenarios/dhcp-relay-01.json';
+import staticRouting from './scenarios/static-routing-01.json';
+
+export const scenarios: Scenario[] = [
+  vlanTrunk as Scenario,
+  stpLoop as Scenario,
+  ospfBlackhole as Scenario,
+  natExhaustion as Scenario,
+  aclBlocking as Scenario,
+  etherchannel as Scenario,
+  hsrp as Scenario,
+  eigrp as Scenario,
+  dhcpRelay as Scenario,
+  staticRouting as Scenario,
+];
+
+export function getScenarioById(id: string): Scenario | undefined {
+  return scenarios.find((s) => s.id === id);
 }
 
-/**
- * A full troubleshooting scenario.
- */
-export interface Scenario {
-  /** Unique identifier, matches the JSON filename (without .json) */
-  id: string;
-  /** Human-readable title */
-  title: string;
-  /** Difficulty level */
-  difficulty: Difficulty;
-  /** Topic category (e.g., 'VLAN', 'STP', 'OSPF', 'NAT', 'ACL') */
-  topic: string;
-  /** User-facing symptoms that describe the problem */
-  symptoms: string[];
-  /** The actual root cause (revealed only at the end) */
-  rootCause: string;
-  /** Ordered list of guided steps the user must complete */
-  steps: GuidedStep[];
-  /** Whether this scenario requires a premium license to unlock */
-  premium: boolean;
+export function getScenariosByDifficulty(
+  difficulty: Scenario['difficulty']
+): Scenario[] {
+  return scenarios.filter((s) => s.difficulty === difficulty);
 }
-
-/**
- * Progress record for a single scenario.
- */
-export interface ScenarioProgress {
-  /** Whether the user has completed all steps */
-  completed: boolean;
-  /** Which step orders have been completed (e.g., [1, 2, 3]) */
-  completedSteps: number[];
-  /** ISO timestamp of the last attempt */
-  lastAttempt: string;
-}
-
-/**
- * Map of scenario ID to its progress record.
- * This is what gets persisted in localStorage.
- */
-export type ProgressState = Record<string, ScenarioProgress>;

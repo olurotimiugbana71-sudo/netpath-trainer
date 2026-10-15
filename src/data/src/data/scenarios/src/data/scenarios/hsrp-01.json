@@ -1,0 +1,37 @@
+{
+  "id": "hsrp-01",
+  "title": "Gateway Failover Not Working After Router Reboot",
+  "difficulty": "intermediate",
+  "topic": "HSRP",
+  "symptoms": [
+    "Users lose internet access when the primary router reboots",
+    "Both routers show as HSRP active",
+    "The virtual IP is reachable from one subnet but not the other",
+    "Failover was working last week"
+  ],
+  "rootCause": "The HSRP group number was changed on one router during a maintenance window, but not on the other. The two routers are now participating in two different HSRP groups, both claiming to be active for the same virtual IP.",
+  "steps": [
+    {
+      "order": 1,
+      "prompt": "Which command shows the HSRP state on each router?",
+      "expectedCommand": "show standby brief",
+      "hint": "Look at the State column - you should see one Active and one Standby per group.",
+      "validation": "contains"
+    },
+    {
+      "order": 2,
+      "prompt": "Which command shows detailed HSRP information including group number and virtual IP?",
+      "expectedCommand": "show standby",
+      "hint": "Compare group numbers and virtual IPs between the two routers.",
+      "validation": "contains"
+    },
+    {
+      "order": 3,
+      "prompt": "Which command shows the HSRP configuration on the interface?",
+      "expectedCommand": "show running-config interface GigabitEthernet0/0",
+      "hint": "Look for 'standby X ip' and 'standby X priority' lines.",
+      "validation": "contains"
+    }
+  ],
+  "premium": true
+}
