@@ -1,4 +1,4 @@
-// src/data/scenarios.ts
+﻿// src/data/scenarios.ts
 
 import type { Scenario } from '../types/scenario';
 
@@ -14,10 +14,6 @@ import eigrp from './scenarios/eigrp-01.json';
 import dhcpRelay from './scenarios/dhcp-relay-01.json';
 import staticRouting from './scenarios/static-routing-01.json';
 
-/**
- * All scenarios available in the app.
- * Add new scenarios by importing the JSON file above and appending it here.
- */
 export const scenarios: Scenario[] = [
   vlanTrunk as Scenario,
   stpLoop as Scenario,
@@ -31,16 +27,10 @@ export const scenarios: Scenario[] = [
   staticRouting as Scenario,
 ];
 
-/**
- * Look up a scenario by its unique ID.
- */
 export function getScenarioById(id: string): Scenario | undefined {
   return scenarios.find((s) => s.id === id);
 }
 
-/**
- * Get all scenarios filtered by difficulty.
- */
 export function getScenariosByDifficulty(
   difficulty: Scenario['difficulty']
 ): Scenario[] {
