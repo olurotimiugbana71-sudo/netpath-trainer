@@ -1,0 +1,37 @@
+{
+  "id": "multicast-pim-01",
+  "title": "PIM-SM Rendezvous Point Not Learning Groups",
+  "difficulty": "advanced",
+  "topic": "Multicast",
+  "symptoms": [
+    "Multicast receivers cannot join groups",
+    "PIM neighbors are established between routers",
+    "The RP is configured and reachable",
+    "The RP shows no group entries in its mroute table"
+  ],
+  "rootCause": "The RP address is configured on some routers but not all. PIM routers that do not know the RP address cannot send PIM Register messages, so the RP never learns about active multicast sources.",
+  "steps": [
+    {
+      "order": 1,
+      "prompt": "Which command shows the PIM RP mapping configured on a router?",
+      "expectedCommand": "show ip pim rp mapping",
+      "hint": "If the output is empty, the RP is not configured on this router.",
+      "validation": "contains"
+    },
+    {
+      "order": 2,
+      "prompt": "Which command shows PIM neighbors and confirms adjacencies?",
+      "expectedCommand": "show ip pim neighbor",
+      "hint": "PIM neighbors must be up before any multicast forwarding can occur.",
+      "validation": "contains"
+    },
+    {
+      "order": 3,
+      "prompt": "Which command shows the multicast routing table on the RP?",
+      "expectedCommand": "show ip mroute",
+      "hint": "Group entries should appear here when sources are active.",
+      "validation": "contains"
+    }
+  ],
+  "premium": true
+}

@@ -1,0 +1,37 @@
+{
+  "id": "ipsec-vpn-01",
+  "title": "Site-to-Site VPN Tunnel Flapping",
+  "difficulty": "advanced",
+  "topic": "IPsec",
+  "symptoms": [
+    "The IPsec tunnel between HQ and branch repeatedly goes up and down",
+    "Tunnel comes up for 30 seconds, then drops",
+    "Both peers show IKE phase 1 completes successfully",
+    "Logs show phase 2 SA rekeying failures"
+  ],
+  "rootCause": "The IPsec transform set on the two peers does not match. One side uses ESP-AES-256-SHA, the other ESP-AES-128-SHA. Phase 1 succeeds because IKE proposals match, but phase 2 fails on rekey because the transform sets are incompatible.",
+  "steps": [
+    {
+      "order": 1,
+      "prompt": "Which command shows the current IPsec SA state and tunnel status?",
+      "expectedCommand": "show crypto ipsec sa",
+      "hint": "Look for the 'status' line - should say ACTIVE for a stable tunnel.",
+      "validation": "contains"
+    },
+    {
+      "order": 2,
+      "prompt": "Which command shows the IKE phase 1 SA status?",
+      "expectedCommand": "show crypto isakmp sa",
+      "hint": "QM_IDLE means phase 1 succeeded. If phase 2 fails, look at transform sets.",
+      "validation": "contains"
+    },
+    {
+      "order": 3,
+      "prompt": "Which command shows the IPsec transform set configuration?",
+      "expectedCommand": "show running-config | section crypto ipsec transform-set",
+      "hint": "Compare encryption and hash algorithms on both peers.",
+      "validation": "contains"
+    }
+  ],
+  "premium": true
+}

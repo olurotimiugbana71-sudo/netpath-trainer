@@ -1,0 +1,37 @@
+{
+  "id": "segment-routing-01",
+  "title": "SR Path Not Installing in Forwarding Table",
+  "difficulty": "advanced",
+  "topic": "Segment Routing",
+  "symptoms": [
+    "Segment Routing is enabled on all routers",
+    "The SRGB is configured but SIDs are not being advertised",
+    "IS-IS adjacencies are all up",
+    "MPLS forwarding table has no SR entries"
+  ],
+  "rootCause": "Segment Routing is enabled globally under the IGP, but the prefix-SID is missing on the loopback interface. Without a prefix-SID, the router does not advertise an MPLS label for its prefix, breaking SR forwarding.",
+  "steps": [
+    {
+      "order": 1,
+      "prompt": "Which command shows whether SR is enabled under IS-IS?",
+      "expectedCommand": "show running-config | section router isis",
+      "hint": "Look for 'segment-routing mpls' under the IS-IS process.",
+      "validation": "contains"
+    },
+    {
+      "order": 2,
+      "prompt": "Which command shows the SRGB and prefix-SID configuration?",
+      "expectedCommand": "show segment-routing mpls states",
+      "hint": "Verify the SRGB range and that loopback has a prefix-SID.",
+      "validation": "contains"
+    },
+    {
+      "order": 3,
+      "prompt": "Which command shows the IS-IS database with SR extensions?",
+      "expectedCommand": "show isis database detail",
+      "hint": "Look for SR sub-TLVs advertising prefix-SIDs.",
+      "validation": "contains"
+    }
+  ],
+  "premium": true
+}

@@ -1,0 +1,37 @@
+{
+  "id": "mpls-lsp-01",
+  "title": "LSP Not Establishing Between PE Routers",
+  "difficulty": "advanced",
+  "topic": "MPLS",
+  "symptoms": [
+    "Customer traffic between PEs fails",
+    "IGP routes exist between all PEs and P routers",
+    "LDP sessions between some routers are missing",
+    "MPLS forwarding table is incomplete on one PE"
+  ],
+  "rootCause": "LDP is not enabled on all core-facing interfaces. The 'mpls ip' command must be on every interface along the LSP path. One P router has LDP disabled on its core-facing interface, breaking the LSP.",
+  "steps": [
+    {
+      "order": 1,
+      "prompt": "Which command shows LDP neighbor sessions and their state?",
+      "expectedCommand": "show mpls ldp neighbor",
+      "hint": "All core-facing neighbors should show 'Operational' state.",
+      "validation": "contains"
+    },
+    {
+      "order": 2,
+      "prompt": "Which command shows the MPLS forwarding table (LFIB)?",
+      "expectedCommand": "show mpls forwarding-table",
+      "hint": "Labels for customer prefixes should be present with valid next-hops.",
+      "validation": "contains"
+    },
+    {
+      "order": 3,
+      "prompt": "Which command shows whether MPLS is enabled on a specific interface?",
+      "expectedCommand": "show mpls interfaces",
+      "hint": "Every core-facing interface must show 'Yes' for LDP.",
+      "validation": "contains"
+    }
+  ],
+  "premium": true
+}

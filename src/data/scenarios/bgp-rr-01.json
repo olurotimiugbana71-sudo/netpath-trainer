@@ -1,0 +1,37 @@
+{
+  "id": "bgp-rr-01",
+  "title": "iBGP Full Mesh Failing After Route Reflector Introduction",
+  "difficulty": "advanced",
+  "topic": "BGP",
+  "symptoms": [
+    "The iBGP full mesh was replaced with a route reflector design",
+    "Some routers now receive routes, others do not",
+    "The RR itself has all the routes in its BGP table",
+    "Non-client routers are not receiving reflected routes"
+  ],
+  "rootCause": "The route reflector is configured correctly on the server side, but client routers are missing 'neighbor X route-reflector-client' on the RR. Without this, the RR treats all peers as non-clients and does not reflect routes between them (BGP split-horizon still applies).",
+  "steps": [
+    {
+      "order": 1,
+      "prompt": "Which command shows the BGP configuration including route-reflector-client statements?",
+      "expectedCommand": "show running-config | section router bgp",
+      "hint": "Look for 'neighbor X.X.X.X route-reflector-client' lines.",
+      "validation": "contains"
+    },
+    {
+      "order": 2,
+      "prompt": "Which command shows the BGP neighbor table and current peer states?",
+      "expectedCommand": "show ip bgp summary",
+      "hint": "All iBGP peers should show Established state.",
+      "validation": "contains"
+    },
+    {
+      "order": 3,
+      "prompt": "Which command shows whether the RR is reflecting routes correctly?",
+      "expectedCommand": "show ip bgp neighbors 10.0.0.2",
+      "hint": "Check the 'Route Reflector' section in the output.",
+      "validation": "contains"
+    }
+  ],
+  "premium": true
+}

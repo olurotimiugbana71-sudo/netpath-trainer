@@ -1,0 +1,37 @@
+{
+  "id": "dmvpn-01",
+  "title": "Spoke-to-Spoke Tunnel Not Forming",
+  "difficulty": "advanced",
+  "topic": "DMVPN",
+  "symptoms": [
+    "Hub-to-spoke tunnels form correctly",
+    "Spoke-to-spoke direct tunnels never establish",
+    "All spokes can reach the hub's public IP",
+    "NHRP registrations succeed for all spokes"
+  ],
+  "rootCause": "The hub router is missing 'ip nhrp redirect' and the spokes are missing 'ip nhrp shortcut'. Without these commands, NHRP cannot resolve spoke-to-spoke paths, forcing all traffic through the hub (or dropping it entirely if routing demands direct paths).",
+  "steps": [
+    {
+      "order": 1,
+      "prompt": "Which command shows the NHRP cache including spoke-to-spoke entries?",
+      "expectedCommand": "show ip nhrp",
+      "hint": "If only hub entries appear, spoke-to-spoke shortcuts aren't forming.",
+      "validation": "contains"
+    },
+    {
+      "order": 2,
+      "prompt": "Which command shows the tunnel interface configuration including NHRP options?",
+      "expectedCommand": "show running-config interface Tunnel0",
+      "hint": "Look for 'ip nhrp redirect' on hub and 'ip nhrp shortcut' on spokes.",
+      "validation": "contains"
+    },
+    {
+      "order": 3,
+      "prompt": "Which command shows the DMVPN tunnel state and current peer count?",
+      "expectedCommand": "show dmvpn",
+      "hint": "Look at the state - 'UP' with active NHRP entries confirms tunnels are healthy.",
+      "validation": "contains"
+    }
+  ],
+  "premium": true
+}

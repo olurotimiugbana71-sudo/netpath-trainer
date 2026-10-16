@@ -1,0 +1,37 @@
+{
+  "id": "vrf-leaking-01",
+  "title": "Route Leaking Between VRFs Not Working",
+  "difficulty": "advanced",
+  "topic": "VRF",
+  "symptoms": [
+    "Two VRFs on the same router need to share specific routes",
+    "The shared routes are in the source VRF but not visible in the destination VRF",
+    "The destination VRF cannot reach the shared service",
+    "No ACLs are blocking the traffic"
+  ],
+  "rootCause": "The route-target import/export on the two VRFs does not match. The source VRF exports with RT 65000:100, but the destination VRF imports with RT 65000:200. Without matching route targets, routes are not leaked between VRFs.",
+  "steps": [
+    {
+      "order": 1,
+      "prompt": "Which command shows the route targets configured on each VRF?",
+      "expectedCommand": "show running-config | section ip vrf",
+      "hint": "Check 'route-target export' on source and 'route-target import' on destination.",
+      "validation": "contains"
+    },
+    {
+      "order": 2,
+      "prompt": "Which command shows BGP tables per VRF to verify route installation?",
+      "expectedCommand": "show ip bgp vpnv4 vrf SOURCE_VRF",
+      "hint": "The exported routes should appear with their RT values.",
+      "validation": "contains"
+    },
+    {
+      "order": 3,
+      "prompt": "Which command verifies route leaking is working by checking the destination VRF's routing table?",
+      "expectedCommand": "show ip route vrf DESTINATION_VRF",
+      "hint": "If the leaked routes appear, the RT matching is correct.",
+      "validation": "contains"
+    }
+  ],
+  "premium": true
+}

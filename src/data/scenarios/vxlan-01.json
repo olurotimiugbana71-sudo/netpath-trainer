@@ -1,0 +1,37 @@
+{
+  "id": "vxlan-01",
+  "title": "Overlay Not Forwarding After VTEP Misconfiguration",
+  "difficulty": "advanced",
+  "topic": "VXLAN",
+  "symptoms": [
+    "VMs on the same VXLAN VNI on different hosts cannot communicate",
+    "Underlay IP connectivity between VTEPs works",
+    "The NVE interface is up on both VTEPs",
+    "No VXLAN traffic appears in packet captures on either side"
+  ],
+  "rootCause": "The VXLAN VNI is mapped to different VLANs on the two VTEPs. On host A, VNI 10000 maps to VLAN 100; on host B, the same VNI maps to VLAN 200. Without matching VLAN-to-VNI mappings, the overlay forwards traffic to the wrong broadcast domain.",
+  "steps": [
+    {
+      "order": 1,
+      "prompt": "Which command shows the VXLAN VNI-to-VLAN mappings?",
+      "expectedCommand": "show vxlan vlan vni",
+      "hint": "Compare mappings on both VTEPs - they must match.",
+      "validation": "contains"
+    },
+    {
+      "order": 2,
+      "prompt": "Which command shows the NVE interface state and peer VTEPs?",
+      "expectedCommand": "show nve peers",
+      "hint": "Peer VTEPs should be learned via the underlay routing protocol.",
+      "validation": "contains"
+    },
+    {
+      "order": 3,
+      "prompt": "Which command shows the VXLAN configuration in the running-config?",
+      "expectedCommand": "show running-config | section vlan configuration",
+      "hint": "Look for 'member vni X' under each VLAN.",
+      "validation": "contains"
+    }
+  ],
+  "premium": true
+}

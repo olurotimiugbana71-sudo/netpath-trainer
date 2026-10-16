@@ -26,6 +26,18 @@ import cdpLldp from './scenarios/cdp-lldp-01.json';
 import syslog from './scenarios/syslog-01.json';
 import ipSla from './scenarios/ip-sla-01.json';
 
+import bgpRr from './scenarios/bgp-rr-01.json';
+import ipsecVpn from './scenarios/ipsec-vpn-01.json';
+import multicastPim from './scenarios/multicast-pim-01.json';
+import mplsL3vpn from './scenarios/mpls-l3vpn-01.json';
+import vrfLeaking from './scenarios/vrf-leaking-01.json';
+
+import dmvpn from './scenarios/dmvpn-01.json';
+import mplsLsp from './scenarios/mpls-lsp-01.json';
+import vxlan from './scenarios/vxlan-01.json';
+import segmentRouting from './scenarios/segment-routing-01.json';
+import routeRedistribution from './scenarios/route-redistribution-01.json';
+
 export const scenarios: Scenario[] = [
   vlanTrunk as Scenario,
   stpLoop as Scenario,
@@ -47,6 +59,16 @@ export const scenarios: Scenario[] = [
   cdpLldp as Scenario,
   syslog as Scenario,
   ipSla as Scenario,
+  bgpRr as Scenario,
+  ipsecVpn as Scenario,
+  multicastPim as Scenario,
+  mplsL3vpn as Scenario,
+  vrfLeaking as Scenario,
+  dmvpn as Scenario,
+  mplsLsp as Scenario,
+  vxlan as Scenario,
+  segmentRouting as Scenario,
+  routeRedistribution as Scenario,
 ];
 
 export function getScenarioById(id: string): Scenario | undefined {

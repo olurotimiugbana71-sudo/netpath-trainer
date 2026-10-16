@@ -1,0 +1,37 @@
+{
+  "id": "route-redistribution-01",
+  "title": "OSPF-to-EIGRP Redistribution Causing Loops",
+  "difficulty": "advanced",
+  "topic": "Redistribution",
+  "symptoms": [
+    "Routes from OSPF are being advertised back into OSPF via EIGRP",
+    "Traceroute shows paths bouncing between two routers",
+    "CPU on both routers is elevated",
+    "Static routes exist but are not being filtered from redistribution"
+  ],
+  "rootCause": "Mutual redistribution between OSPF and EIGRP is configured without route tagging or filtering. Routes redistribute in a loop: OSPF -> EIGRP -> OSPF -> EIGRP. Route tags or distribute-lists are needed to prevent re-injection.",
+  "steps": [
+    {
+      "order": 1,
+      "prompt": "Which command shows the redistribution configuration under both routing processes?",
+      "expectedCommand": "show running-config | section router ospf",
+      "hint": "Look for 'redistribute eigrp' statements and any route-maps applied.",
+      "validation": "contains"
+    },
+    {
+      "order": 2,
+      "prompt": "Which command shows the OSPF external LSAs that were injected from EIGRP?",
+      "expectedCommand": "show ip ospf database external",
+      "hint": "External LSAs should carry a route tag if filtering is configured.",
+      "validation": "contains"
+    },
+    {
+      "order": 3,
+      "prompt": "Which command shows the routing table to identify routes with incorrect next-hops?",
+      "expectedCommand": "show ip route",
+      "hint": "Look for routes with next-hops pointing at the redistribution peer.",
+      "validation": "contains"
+    }
+  ],
+  "premium": true
+}
