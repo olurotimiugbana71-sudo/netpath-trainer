@@ -1,0 +1,37 @@
+{
+  "id": "ssh-access-01",
+  "title": "SSH Login Fails After IOS Upgrade",
+  "difficulty": "beginner",
+  "topic": "Management",
+  "symptoms": [
+    "SSH to the router worked before an IOS upgrade last night",
+    "Telnet still works, but the security policy disallows it",
+    "The RSA key pair existed before the upgrade",
+    "The SSH client reports 'no matching key exchange method'"
+  ],
+  "rootCause": "The IOS upgrade removed the RSA crypto key pair. Newer IOS versions do not preserve RSA keys across certain upgrade paths, and SSH requires a valid crypto key to be regenerated with 'crypto key generate rsa'.",
+  "steps": [
+    {
+      "order": 1,
+      "prompt": "Which command shows whether SSH is enabled and the crypto key status?",
+      "expectedCommand": "show ip ssh",
+      "hint": "If SSH shows 'disabled' or the version is missing, the key was lost.",
+      "validation": "contains"
+    },
+    {
+      "order": 2,
+      "prompt": "Which command shows the RSA key pair configured on the device?",
+      "expectedCommand": "show crypto key mypubkey rsa",
+      "hint": "If no key is present, SSH cannot negotiate a session.",
+      "validation": "contains"
+    },
+    {
+      "order": 3,
+      "prompt": "Which command shows the VTY line configuration to verify SSH is allowed?",
+      "expectedCommand": "show running-config | section line vty",
+      "hint": "Look for 'transport input ssh' on the VTY lines.",
+      "validation": "contains"
+    }
+  ],
+  "premium": true
+}

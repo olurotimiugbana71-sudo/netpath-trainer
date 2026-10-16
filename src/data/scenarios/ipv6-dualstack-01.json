@@ -1,0 +1,37 @@
+{
+  "id": "ipv6-dualstack-01",
+  "title": "Dual-Stack Host Cannot Reach IPv6 Server",
+  "difficulty": "intermediate",
+  "topic": "IPv6",
+  "symptoms": [
+    "A dual-stack host can reach the IPv4 server but not the IPv6 server",
+    "The IPv6 server responds to pings from its local subnet",
+    "IPv6 addresses are configured on both routers",
+    "The host has both IPv4 and IPv6 addresses assigned"
+  ],
+  "rootCause": "IPv6 routing is not enabled on the intermediate router with 'ipv6 unicast-routing'. Without this command, the router does not forward IPv6 packets between interfaces, silently dropping traffic at Layer 3.",
+  "steps": [
+    {
+      "order": 1,
+      "prompt": "Which command shows whether IPv6 routing is enabled on the router?",
+      "expectedCommand": "show ipv6 interface brief",
+      "hint": "If interfaces show IPv6 addresses but no global routing, the command is missing.",
+      "validation": "contains"
+    },
+    {
+      "order": 2,
+      "prompt": "Which command shows the IPv6 routing table?",
+      "expectedCommand": "show ipv6 route",
+      "hint": "If the table only has link-local entries, unicast routing is not enabled.",
+      "validation": "contains"
+    },
+    {
+      "order": 3,
+      "prompt": "Which command confirms IPv6 unicast routing is configured?",
+      "expectedCommand": "show running-config | include ipv6 unicast-routing",
+      "hint": "This command must appear in the global config for IPv6 forwarding to work.",
+      "validation": "contains"
+    }
+  ],
+  "premium": true
+}

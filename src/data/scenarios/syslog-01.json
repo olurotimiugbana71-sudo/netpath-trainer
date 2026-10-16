@@ -1,0 +1,37 @@
+{
+  "id": "syslog-01",
+  "title": "Critical Alerts Not Reaching Syslog Server",
+  "difficulty": "intermediate",
+  "topic": "Syslog",
+  "symptoms": [
+    "The syslog server has received no logs from the core switch in 2 days",
+    "Local logging still works when viewing the device buffer",
+    "The syslog server is reachable via ping",
+    "Other devices are successfully sending logs to the same server"
+  ],
+  "rootCause": "The 'logging host' command was removed during a configuration change, and the logging severity level was raised to 'informational', which suppresses warnings and errors. The device is generating logs but not sending them.",
+  "steps": [
+    {
+      "order": 1,
+      "prompt": "Which command shows the syslog server configuration on the device?",
+      "expectedCommand": "show logging",
+      "hint": "Look for 'Syslog logging: enabled' and the configured host list.",
+      "validation": "contains"
+    },
+    {
+      "order": 2,
+      "prompt": "Which command shows the logging configuration in the running-config?",
+      "expectedCommand": "show running-config | include logging",
+      "hint": "Verify 'logging host X.X.X.X' and the logging trap level.",
+      "validation": "contains"
+    },
+    {
+      "order": 3,
+      "prompt": "Which command tests connectivity to the syslog server?",
+      "expectedCommand": "ping 10.10.10.100",
+      "hint": "Replace with your actual syslog server IP.",
+      "validation": "contains"
+    }
+  ],
+  "premium": true
+}

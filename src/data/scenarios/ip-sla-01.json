@@ -1,0 +1,37 @@
+{
+  "id": "ip-sla-01",
+  "title": "Failover Not Triggering When Primary Link Degrades",
+  "difficulty": "advanced",
+  "topic": "IP SLA",
+  "symptoms": [
+    "The backup link only activates when the primary link physically goes down",
+    "When the primary link degrades (high latency, packet loss), traffic continues over it",
+    "Users experience poor quality but no failover",
+    "The backup link is fully operational"
+  ],
+  "rootCause": "The IP SLA tracking object is configured but the static route is not tracking it. The route has 'permanent' configured or is missing the 'track' keyword, so the route stays installed even when the SLA probe fails.",
+  "steps": [
+    {
+      "order": 1,
+      "prompt": "Which command shows all configured IP SLA operations and their status?",
+      "expectedCommand": "show ip sla configuration",
+      "hint": "Verify the SLA operation is defined and running.",
+      "validation": "contains"
+    },
+    {
+      "order": 2,
+      "prompt": "Which command shows the current state and statistics of IP SLA operations?",
+      "expectedCommand": "show ip sla statistics",
+      "hint": "Look for 'Number of failures' - if high, the SLA is detecting the problem.",
+      "validation": "contains"
+    },
+    {
+      "order": 3,
+      "prompt": "Which command shows the track object state and what it monitors?",
+      "expectedCommand": "show track",
+      "hint": "The track object should show 'Down' when the SLA fails.",
+      "validation": "contains"
+    }
+  ],
+  "premium": true
+}

@@ -1,0 +1,37 @@
+{
+  "id": "cdp-lldp-01",
+  "title": "Neighbor Discovery Not Showing Adjacent Device",
+  "difficulty": "beginner",
+  "topic": "Discovery",
+  "symptoms": [
+    "The switch does not show the adjacent router in neighbor discovery",
+    "Physical link is up/up and passing traffic",
+    "Both devices support the discovery protocol",
+    "The issue started after a security audit"
+  ],
+  "rootCause": "CDP and LLDP were disabled globally during the security audit as part of a hardening effort. Without them, the switch cannot discover or advertise neighbor information, breaking topology mapping tools.",
+  "steps": [
+    {
+      "order": 1,
+      "prompt": "Which command shows CDP neighbors from the switch's perspective?",
+      "expectedCommand": "show cdp neighbors",
+      "hint": "If the output is empty, CDP is likely disabled.",
+      "validation": "contains"
+    },
+    {
+      "order": 2,
+      "prompt": "Which command shows CDP status globally and per interface?",
+      "expectedCommand": "show cdp",
+      "hint": "Look for 'CDP is not enabled' or per-interface disabled states.",
+      "validation": "contains"
+    },
+    {
+      "order": 3,
+      "prompt": "Which command shows whether LLDP is enabled as an alternative?",
+      "expectedCommand": "show lldp",
+      "hint": "LLDP is the vendor-neutral alternative to CDP.",
+      "validation": "contains"
+    }
+  ],
+  "premium": true
+}

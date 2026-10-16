@@ -20,6 +20,12 @@ import staticNat from './scenarios/static-nat-01.json';
 import extendedAcl from './scenarios/extended-acl-01.json';
 import ospfAbr from './scenarios/ospf-abr-01.json';
 
+import ipv6Dualstack from './scenarios/ipv6-dualstack-01.json';
+import sshAccess from './scenarios/ssh-access-01.json';
+import cdpLldp from './scenarios/cdp-lldp-01.json';
+import syslog from './scenarios/syslog-01.json';
+import ipSla from './scenarios/ip-sla-01.json';
+
 export const scenarios: Scenario[] = [
   vlanTrunk as Scenario,
   stpLoop as Scenario,
@@ -36,6 +42,11 @@ export const scenarios: Scenario[] = [
   staticNat as Scenario,
   extendedAcl as Scenario,
   ospfAbr as Scenario,
+  ipv6Dualstack as Scenario,
+  sshAccess as Scenario,
+  cdpLldp as Scenario,
+  syslog as Scenario,
+  ipSla as Scenario,
 ];
 
 export function getScenarioById(id: string): Scenario | undefined {
