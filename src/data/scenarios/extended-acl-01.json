@@ -1,0 +1,37 @@
+﻿{
+  "id": "extended-acl-01",
+  "title": "Extended ACL Blocking Return Traffic",
+  "difficulty": "intermediate",
+  "topic": "ACL",
+  "symptoms": [
+    "Users on VLAN 10 can initiate connections to VLAN 20 but get no response",
+    "The TCP SYN packets reach VLAN 20 (confirmed by packet capture)",
+    "VLAN 20 server logs show no incoming connections",
+    "Removing the ACL between VLANs restores connectivity"
+  ],
+  "rootCause": "The extended ACL applied inbound on VLAN 10 permits outbound traffic but the 'established' keyword is missing, so return traffic from VLAN 20 is dropped. Without 'established' or 'reflexive', the ACL is stateless and blocks responses.",
+  "steps": [
+    {
+      "order": 1,
+      "prompt": "Which command shows the ACL definition applied to the VLAN 10 interface?",
+      "expectedCommand": "show running-config | include access-list",
+      "hint": "Look for an entry permitting TCP with no 'established' keyword.",
+      "validation": "contains"
+    },
+    {
+      "order": 2,
+      "prompt": "Which command shows the ACL hit counters to confirm what's being dropped?",
+      "expectedCommand": "show access-lists",
+      "hint": "The deny entries at the bottom should show high hit counts.",
+      "validation": "contains"
+    },
+    {
+      "order": 3,
+      "prompt": "Which command shows which interfaces the ACL is applied to?",
+      "expectedCommand": "show ip interface GigabitEthernet0/0.10",
+      "hint": "Confirm the direction (in/out) matches what you intended.",
+      "validation": "contains"
+    }
+  ],
+  "premium": true
+}

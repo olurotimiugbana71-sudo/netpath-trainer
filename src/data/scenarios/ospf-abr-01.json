@@ -1,0 +1,37 @@
+{
+  "id": "ospf-abr-01",
+  "title": "Area Border Router Not Generating Summary Routes",
+  "difficulty": "advanced",
+  "topic": "OSPF",
+  "symptoms": [
+    "Backbone area routers do not see a summarized route for the branch office",
+    "The ABR has all the branch subnets in its database",
+    "Branch office routers see their own subnets fine",
+    "Manual route injection into the backbone has never been needed before"
+  ],
+  "rootCause": "The 'area X range' command was configured for the wrong area. The summary is being generated for Area 0 (backbone) instead of for the branch area. Backbone routers never receive the summary because the ABR didn't actually originate it into Area 0.",
+  "steps": [
+    {
+      "order": 1,
+      "prompt": "Which command shows the OSPF configuration including area ranges?",
+      "expectedCommand": "show running-config | section router ospf",
+      "hint": "Look for 'area X range' statements - verify the area number matches the branch area.",
+      "validation": "contains"
+    },
+    {
+      "order": 2,
+      "prompt": "Which command shows what the ABR is advertising to Area 0?",
+      "expectedCommand": "show ip ospf database summary",
+      "hint": "If the summary LSA is missing, the range command isn't working.",
+      "validation": "contains"
+    },
+    {
+      "order": 3,
+      "prompt": "Which command shows the routing table on the ABR to verify the summarized route exists locally?",
+      "expectedCommand": "show ip route ospf",
+      "hint": "Look for an 'O IA' summary route - its absence confirms the misconfiguration.",
+      "validation": "contains"
+    }
+  ],
+  "premium": true
+}

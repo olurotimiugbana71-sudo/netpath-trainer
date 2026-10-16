@@ -1,0 +1,37 @@
+{
+  "id": "stp-root-01",
+  "title": "Root Bridge Election Causing Suboptimal Paths",
+  "difficulty": "intermediate",
+  "topic": "STP",
+  "symptoms": [
+    "Traffic between access switches takes a longer path than expected",
+    "One access switch is unexpectedly the STP root bridge",
+    "Inter-switch links show asymmetric traffic patterns",
+    "No loops are present — the network is stable, just slow"
+  ],
+  "rootCause": "An access switch with the lowest default bridge priority (32768) became root because the intended root (core switch) was configured with the same priority. The tiebreaker (lowest MAC address) favored the access switch, creating suboptimal forwarding paths.",
+  "steps": [
+    {
+      "order": 1,
+      "prompt": "Which command identifies the current STP root bridge for VLAN 1?",
+      "expectedCommand": "show spanning-tree vlan 1",
+      "hint": "Look at the 'Root ID' section - the address shown is the root bridge's MAC.",
+      "validation": "contains"
+    },
+    {
+      "order": 2,
+      "prompt": "Which command shows the bridge priority of every switch from the perspective of one switch?",
+      "expectedCommand": "show spanning-tree summary",
+      "hint": "Compare the local bridge priority with the root bridge priority.",
+      "validation": "contains"
+    },
+    {
+      "order": 3,
+      "prompt": "Which command shows the STP configuration in the running-config?",
+      "expectedCommand": "show running-config | include spanning-tree",
+      "hint": "Look for 'spanning-tree vlan X priority Y' - core should be lower than 32768.",
+      "validation": "contains"
+    }
+  ],
+  "premium": true
+}

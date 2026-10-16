@@ -1,0 +1,37 @@
+{
+  "id": "static-nat-01",
+  "title": "Static NAT Not Working After ISP Change",
+  "difficulty": "intermediate",
+  "topic": "NAT",
+  "symptoms": [
+    "Inbound access to the internal web server stopped working",
+    "Internal users can still reach the internet (dynamic NAT works)",
+    "The public IP was changed by the ISP",
+    "The web server itself is up and reachable on the LAN"
+  ],
+  "rootCause": "The static NAT entry still references the old public IP. When the ISP reassigned the public IP, the static translation became stale and no longer matches inbound traffic destined for the new public IP.",
+  "steps": [
+    {
+      "order": 1,
+      "prompt": "Which command shows the static NAT entries currently configured?",
+      "expectedCommand": "show ip nat translations",
+      "hint": "Look for the '---' outside address — is it the old or new public IP?",
+      "validation": "contains"
+    },
+    {
+      "order": 2,
+      "prompt": "Which command shows the static NAT configuration in the running-config?",
+      "expectedCommand": "show running-config | include ip nat inside source static",
+      "hint": "Compare the public IP here against the ISP's assigned range.",
+      "validation": "contains"
+    },
+    {
+      "order": 3,
+      "prompt": "Which command shows the inside and outside NAT interfaces?",
+      "expectedCommand": "show ip nat statistics",
+      "hint": "Confirm the 'inside' and 'outside' interfaces are correctly identified.",
+      "validation": "contains"
+    }
+  ],
+  "premium": true
+}

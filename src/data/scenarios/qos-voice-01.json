@@ -1,0 +1,37 @@
+{
+  "id": "qos-voice-01",
+  "title": "Voice Traffic Getting Dropped During Peak Hours",
+  "difficulty": "advanced",
+  "topic": "QoS",
+  "symptoms": [
+    "VoIP calls have choppy audio during business hours",
+    "The issue clears after 6 PM when the office empties",
+    "Data traffic is unaffected",
+    "Voice VLAN is properly configured on the access switches"
+  ],
+  "rootCause": "The QoS policy marking voice traffic with DSCP EF was applied to the wrong interface direction (inbound instead of outbound on the WAN link). Voice packets are being reclassified as best-effort and dropped during congestion.",
+  "steps": [
+    {
+      "order": 1,
+      "prompt": "Which command shows the QoS service policy on an interface?",
+      "expectedCommand": "show policy-map interface GigabitEthernet0/0",
+      "hint": "Look at the class-map matching and packet counters per class.",
+      "validation": "contains"
+    },
+    {
+      "order": 2,
+      "prompt": "Which command shows the class-map definitions and their match criteria?",
+      "expectedCommand": "show class-map",
+      "hint": "Verify that voice traffic is actually being matched by the class-map.",
+      "validation": "contains"
+    },
+    {
+      "order": 3,
+      "prompt": "Which command shows the policy-map configuration to verify DSCP marking?",
+      "expectedCommand": "show running-config | section policy-map",
+      "hint": "Confirm 'set dscp ef' is present and applied to the right class.",
+      "validation": "contains"
+    }
+  ],
+  "premium": true
+}
