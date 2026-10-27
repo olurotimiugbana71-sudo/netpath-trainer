@@ -1,0 +1,47 @@
+/* src/pages/Purchase.css */
+.purchase-card {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-top: var(--space-6);
+}
+
+.price-display {
+  text-align: center;
+  margin-bottom: var(--space-6);
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.currency { font-size: 2rem; font-weight: 700; color: var(--color-text-muted); }
+.amount { font-size: 3.5rem; font-weight: 800; color: var(--color-text); line-height: 1; }
+.original-price { font-size: 1.25rem; text-decoration: line-through; color: var(--color-text-muted); margin-left: var(--space-3); }
+.period { font-size: 1rem; color: var(--color-text-muted); }
+
+.purchase-form { display: flex; flex-direction: column; gap: var(--space-4); }
+
+.form-group { display: flex; flex-direction: column; gap: var(--space-2); }
+.form-group label { font-size: 0.875rem; font-weight: 600; color: var(--color-text); }
+.form-group input {
+  padding: 0.75rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  outline: none;
+}
+
+.discount-input-row { display: flex; gap: var(--space-2); }
+.discount-input-row input { flex: 1; text-transform: uppercase; }
+.discount-input-row button {
+  padding: 0 1rem;
+  background: var(--color-border);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn--full { width: 100%; padding: 1rem; font-size: 1.125rem; margin-top: var(--space-4); }

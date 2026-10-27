@@ -28,6 +28,7 @@ export function Activate() {
     }
   };
 
+  // 🔒 Logged-in view (License Active)
   if (license) {
     return (
       <div className="page page--narrow">
@@ -77,6 +78,7 @@ export function Activate() {
     );
   }
 
+  // 🔓 Activation view (License Entry)
   return (
     <div className="page page--narrow">
       <Link to="/" className="back-link">
@@ -86,8 +88,7 @@ export function Activate() {
       <header className="page-header" style={{ marginTop: '1.5rem' }}>
         <h1 className="page-title">Activate Premium</h1>
         <p className="page-tagline">
-          Enter your license key to unlock all premium troubleshooting
-          scenarios. Keys are emailed after payment.
+          Enter your license key to unlock all 30 troubleshooting scenarios.
         </p>
       </header>
 
@@ -124,22 +125,22 @@ export function Activate() {
         </div>
       )}
 
+      {/* 🎯 Purchase Block */}
       <div className="activate-help">
-        <h2 className="activate-help__title">How to get a license</h2>
+        <h2 className="activate-help__title">Need a license?</h2>
         <p className="activate-help__body">
-          Premium access includes 50+ scenarios, timed challenges, randomized
-          faults, and diagnostic efficiency scoring.
+          Unlock all 30 scenarios instantly.
         </p>
-        <ul className="activate-help__list">
-          <li>
-            WhatsApp / Telegram:{' '}
-            <a href="tel:+2348065209323">+234 806 520 9323</a>
-          </li>
-          <li>
-            Pay via bank transfer, Paystack, or USSD — details sent on request
-          </li>
-          <li>License key delivered by email within 24 hours of payment</li>
-        </ul>
+        <Link
+          to="/purchase"
+          className="btn btn--primary"
+          style={{ marginTop: '10px', display: 'inline-block' }}
+        >
+          Buy Premium License
+        </Link>
+        <p style={{ marginTop: '15px', fontSize: '0.875rem', color: '#78350f' }}>
+          Or contact us: <a href="tel:+2348065209323">+234 806 520 9323</a>
+        </p>
       </div>
     </div>
   );
